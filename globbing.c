@@ -5,12 +5,18 @@
 int		process_open_bracket(char *pattern, char c)
 {
 	int neg;
-
+	size_t i;
 	neg = 0;
+	i = 1;
 	if (strchr(pattern, ']') == NULL)
 		return (-1);
 	if (pattern[1] == '!')
 		neg = 1;
+		i = 2;
+	while (pattern[i])
+	{
+
+	
 }
 
 
