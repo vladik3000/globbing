@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
-
+#include "libft/libft.h"
 int		is_forbidden(char c)
 {
 	return (!isalpha(c) && !isdigit(c) && c != '-' && c != ']');
@@ -76,6 +76,58 @@ int		digit(const char *pattern, size_t *px, const char c)
 	return (0);
 }
 
+int		is_valid_bracket(const char *pattern, size_t *px)
+{
+	size_t i;
+
+	if (strchr(pattern, ']') == NULL || !pattern)
+		return (0);
+	i = pattern[*px] == '!' ? *px + 1 : *px;
+	while (pattern[i] && pattern[i] != ']')
+	{
+		if (is_forbidden(pattern[i]))
+			return (0);
+		if (isalpha(pattern[i]) && pattern[i + 1] && pattern[i + 1] == '-')
+		{
+			if (!pattern[i + 2])
+				return (0);
+			if (!isalpha(pattern[i + 2]))
+				return (0);
+			if ((isupper(pattern[i]) && !isupper(pattern[i + 2])) || (islower(pattern[i]) && !islower(pattern[i + 2])))
+				return (0);
+			if (pattern[i] >= pattern[i + 2])
+				return (0);
+		}
+		if (isdigit(pattern[i]) && pattern[i + 1] && pattern[i + 1] == '-')
+		{
+			if (!pattern[i + 2])
+				return (0);
+			if (!isdigit(pattern[i + 2]))
+				return (0);
+			if (pattern[i] >= pattern[i + 2])
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+int		check_range(char a, char b, char c)
+{
+	int	range;
+	int	i;
+
+	i = 0;
+	range = b - a;
+	while (i <= range)
+	{
+		if (a + i == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int		brackets(const char *pattern, size_t *px, const char c)
 {
 	int neg;
@@ -83,44 +135,40 @@ int		brackets(const char *pattern, size_t *px, const char c)
 	int		res;
 
 	res = 0;
-	if (!pattern || (strchr(pattern, ']') == NULL))
+	if (!is_valid_bracket(pattern, px))
 		return (-1);
 	neg = 0;
 	i = 0;
 	if (pattern[0] == '!')
 	{
 		neg = 1;
-		i = 1;
+		*px += 1;
 	}
 	while (pattern[*px] && pattern[*px] != ']')
 	{
-		if (is_forbidden(pattern[*px]))
-			return (-1);
-		if (isalpha(pattern[*px]))
+		if (pattern[*px + 1] && pattern[*px + 1] == '-')
 		{
-			if ((res = alpha(pattern, px, c)) == -1)
-				return (-1);
-			else
-				res = 1;
+			if (check_range(pattern[*px], pattern[*px + 2], c) == 1)
+				return (1);
+			*px += 3;
+			continue ;
 		}
-		else if (isdigit(pattern[*px]))
-		{
-			if ((res = digit(pattern, px, c)) == -1)
-				return (-1);
-			else if (res == 1)
-				res = 1;
-		}
+		if (pattern[*px] == c)
+			return (1);
 		*px += 1;
 	}
-
-
+	return (0);
 }
+
+
 // a-z a
 // a => 12
 // z => 34
 //
 //
 //
+
+t_list		compile_pattern
 
 int		match(const char *pattern, const char *string)
 {
@@ -163,6 +211,8 @@ int		match(const char *pattern, const char *string)
 			{
 				if (brackets(pattern, &px, string[nx]) == 1)
 					nx++;
+				else
+
 				continue ;
 			}
 			else
