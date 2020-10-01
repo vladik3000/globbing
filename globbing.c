@@ -1,7 +1,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
-#include "libft/libft.h"
+#include "globbing.h"
+
 int		is_forbidden(char c)
 {
 	return (!isalpha(c) && !isdigit(c) && c != '-' && c != ']');
