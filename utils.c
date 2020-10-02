@@ -15,7 +15,9 @@ int		is_valid_bracket(const char *pattern, size_t *px)
 	while (pattern[i] && pattern[i] != ']')
 	{
 		if (is_forbidden(pattern[i]))
+		{
 			return (0);
+		}
 		if (ft_isalpha(pattern[i]) && pattern[i + 1] && pattern[i + 1] == '-')
 		{
 			if (!pattern[i + 2])
@@ -38,5 +40,6 @@ int		is_valid_bracket(const char *pattern, size_t *px)
 		}
 		i++;
 	}
+	*px += i - *px + 1;
 	return (1);
 }
