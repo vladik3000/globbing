@@ -14,12 +14,15 @@
 
 typedef struct	s_gtoken
 {
-	char charset[62];
+	char c;
+	char *charset;
 	int type;
 }				t_gtoken;
 
 int		is_forbidden(char c);
-int		is_valid_bracket(const char *pattern, size_t *px);
+int		is_valid_bracket(const char *pattern, size_t px);
+t_gtoken **compile_pattern(char *pattern);
+
 #endif
 // a\*b[A-Z] a ... * ... b ... ABCDE...Z
 // abcd[z-a] a b c d [ z - a ]

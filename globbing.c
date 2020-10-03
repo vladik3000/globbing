@@ -161,15 +161,24 @@ int		brackets(const char *pattern, size_t *px, const char c)
 	return (0);
 }
 
+int		check_not(t_gtoken *token, char c)
+{
+	size_t i;
 
-// a-z a
-// a => 12
-// z => 34
-//
-//
-//
+	i = 0;
+	while (token->charset[i])
+	{
+		if (token->charset[i] == '-')
+		{
+		if (token->charset[i] == c)
+			return (1);
 
-t_list		compile_pattern
+int		check_bracket(t_gtoken *token, char c)
+{
+	if (token->type == NOT_CHARSET)
+		return (check_not(token, c));
+	
+
 
 int		match(const char *pattern, const char *string)
 {
@@ -210,10 +219,6 @@ int		match(const char *pattern, const char *string)
 			}
 			else if (pattern[px] == '[')
 			{
-				if (brackets(pattern, &px, string[nx]) == 1)
-					nx++;
-				else
-
 				continue ;
 			}
 			else
