@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strequ.c                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmallist <fmallist@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/17 18:08:32 by fmallist          #+#    #+#             */
-/*   Updated: 2019/09/17 18:13:00 by fmallist         ###   ########.fr       */
+/*   Created: 2019/09/09 20:27:32 by fmallist          #+#    #+#             */
+/*   Updated: 2019/09/09 20:33:59 by fmallist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "globbing.h"
 
-int				ft_strequ(char const *s1, char const *s2)
+int			ft_isdigit(int c)
 {
-	if (!s1 || !s2)
-		return (0);
-	return (ft_strcmp(s1, s2) == 0 ? 1 : 0);
+	return (c >= 48 && c <= 57);
 }

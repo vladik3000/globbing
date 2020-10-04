@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_str_is_printable.c                              :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmallist <fmallist@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/19 19:13:54 by fmallist          #+#    #+#             */
-/*   Updated: 2019/09/19 21:41:10 by fmallist         ###   ########.fr       */
+/*   Created: 2019/09/09 20:17:58 by fmallist          #+#    #+#             */
+/*   Updated: 2019/09/09 20:34:11 by fmallist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+//#include "libft.h"
+#include "globbing.h"
 
-int			ft_str_is_printable(char *str)
+int			ft_isalpha(int c)
 {
-	while (*str)
-	{
-		if (*str < 32 || *str > 126)
-			return (0);
-		str++;
-	}
-	return (1);
+	return ((c >= 97 && c <= 122) || (c >= 65 && c <= 90));
 }

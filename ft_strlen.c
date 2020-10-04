@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmallist <fmallist@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/06 20:43:54 by fmallist          #+#    #+#             */
-/*   Updated: 2019/09/06 21:06:44 by fmallist         ###   ########.fr       */
+/*   Created: 2019/09/05 22:36:19 by fmallist          #+#    #+#             */
+/*   Updated: 2019/09/19 21:43:46 by fmallist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "globbing.h"
 
-char		*ft_strdup(const char *s1)
+size_t		ft_strlen(const char *s)
 {
-	char			*result;
-	size_t			len;
+	size_t i;
 
-	len = ft_strlen(s1);
-	if ((result = (char *)malloc(sizeof(char) * (len + 1))) == NULL)
-		return (NULL);
-	result[len] = '\0';
-	while (len != 0)
+	i = 0;
+	while (*s)
 	{
-		result[len - 1] = s1[len - 1];
-		len--;
+		i++;
+		s++;
 	}
-	return (result);
+	return (i);
 }

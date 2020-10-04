@@ -1,6 +1,6 @@
 #include "globbing.h"
 
-size_t		get_compiled_size(char *pattern)
+size_t		get_compiled_size(const char *pattern)
 {
 	size_t i;
 	size_t size;
@@ -47,7 +47,7 @@ t_gtoken **init_gtoken(size_t compiled_size)
 	{
 		if (!(compiled[k] = malloc(sizeof(t_gtoken))))
 			exit(12);
-		ft_bzero(compiled[k], sizeof(t_gtoken));
+		bzero(compiled[k], sizeof(t_gtoken));
 		k++;
 	}
 	compiled[k] = NULL;
@@ -55,10 +55,10 @@ t_gtoken **init_gtoken(size_t compiled_size)
 }
 
 
-t_gtoken **compile_pattern(char *pattern)
+t_compiled *compile_pattern(const char *pattern)
 {
 	t_gtoken **compiled;
-	size_t compiled_size;
+	t_compiled *result;
 	size_t k;
 	size_t j;
 	size_t len;
@@ -66,8 +66,9 @@ t_gtoken **compile_pattern(char *pattern)
 	k = 0;
 	j = 0;
 	len = 0;
-	compiled_size = get_compiled_size(pattern);
-	compiled = init_gtoken(compiled_size);
+	result = malloc(sizeof(t_compiled));
+	result->size = get_compiled_size(pattern);
+	compiled = init_gtoken(result->size);
 	while (pattern[k])
 	{
 		if (pattern[k] == '*')
@@ -76,7 +77,6 @@ t_gtoken **compile_pattern(char *pattern)
 			compiled[j]->type = QUESTION;
 		else if (pattern[k] == '\\') // \[!a-z]
 		{
-			printf("pzida\n");
 			if (pattern[k + 1])
 			{
 				k++;
@@ -95,12 +95,14 @@ t_gtoken **compile_pattern(char *pattern)
 				if (pattern[k + 1] == '!')
 				{
 					compiled[j]->type = NOT_CHARSET;
-					compiled[j]->charset = ft_strsub(pattern, k + 2, len - 2);
+					if (!(compiled[j]->charset = ft_strsub(pattern, k + 2, len - 2)))
+						exit(12);
 				}
 				else
 				{
 					compiled[j]->type = CHARSET;
-					compiled[j]->charset = ft_strsub(pattern, k + 1, len - 1);
+					if (!(compiled[j]->charset = ft_strsub(pattern, k + 1, len - 1)))
+						exit(12);
 				}
 				k += len + 1;
 				j++;
@@ -114,26 +116,27 @@ t_gtoken **compile_pattern(char *pattern)
 		k++;
 		j++;
 	}
-	return (compiled); // fix this: should return a gtoken!
+	result->arr = compiled;
+	return (result);
 }
 
 
-int main(int ac, char **av)
-{
-	t_gtoken **c;
-	size_t len;
-	size_t i = 0;
-
-	len = 0;
-	c = compile_pattern(av[1]);
-	len = get_compiled_size(av[1]);
-	while (i < len)
-	{
-		printf("token[%zu]:[%d]\n", len, c[i]->type);
-		if (c[i]->type == CHARSET || c[i]->type == NOT_CHARSET)
-			printf("charset:%s\n", c[i]->charset);
-		i++;
-	}
-	printf("string:[%s]\nsize:[%zu]\n", av[1], get_compiled_size(av[1]));
-	return (0);
-}
+//int main(int ac, char **av)
+//{
+//	t_gtoken **c;
+//	size_t len;
+//	size_t i = 0;
+//
+//	len = 0;
+//	c = compile_pattern(av[1]);
+//	len = get_compiled_size(av[1]);
+//	while (i < len)
+//	{
+//		printf("token[%zu]:[%d]\n", len, c[i]->type);
+//		if (c[i]->type == CHARSET || c[i]->type == NOT_CHARSET)
+//			printf("charset:%s\n", c[i]->charset);
+//		i++;
+//	}
+//	printf("string:[%s]\nsize:[%zu]\n", av[1], get_compiled_size(av[1]));
+//	return (0);
+//}

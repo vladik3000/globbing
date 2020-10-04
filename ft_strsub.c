@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmallist <fmallist@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/18 21:09:00 by fmallist          #+#    #+#             */
-/*   Updated: 2019/09/18 21:23:46 by fmallist         ###   ########.fr       */
+/*   Created: 2019/09/17 18:19:38 by fmallist          #+#    #+#             */
+/*   Updated: 2020/03/11 20:13:11 by fmallist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "globbing.h"
 
-t_list		*ft_lstnew(void const *content, size_t content_size)
+char			*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	t_list *a;
+	size_t			i;
+	char			*res;
 
-	if ((a = (t_list *)malloc(sizeof(t_list))) == NULL)
+	i = 0;
+	if ((len + 1 < len) || !s || !len || start >= ft_strlen(s))
 		return (NULL);
-	if (!content || !content_size)
-	{
-		a->content = NULL;
-		a->content_size = 0;
-	}
-	else
-	{
-		if (!(a->content = malloc(content_size)))
-			return (NULL);
-		ft_memcpy(a->content, content, content_size);
-		a->content_size = content_size;
-	}
-	a->next = NULL;
-	return (a);
+	if ((res = (char *)malloc(sizeof(char) * (len + 1))) == NULL)
+		return (NULL);
+	while (i < len)
+		res[i++] = s[start++];
+	res[i] = '\0';
+	return (res);
 }
