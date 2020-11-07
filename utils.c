@@ -17,25 +17,15 @@ int		is_valid_bracket(const char *pattern, size_t px)
 		if (is_forbidden(pattern[i]))
 			return (0);
 		if (ft_isalpha(pattern[i]) && pattern[i + 1] && pattern[i + 1] == '-')
-		{
-			if (!pattern[i + 2])
+			if (!pattern[i + 2] || (!ft_isalpha(pattern[i + 2]))
+			|| ((isupper(pattern[i]) && !isupper(pattern[i + 2]))
+			|| (islower(pattern[i]) && !islower(pattern[i + 2])))
+			|| (pattern[i] >= pattern[i + 2]))
 				return (0);
-			if (!ft_isalpha(pattern[i + 2]))
-				return (0);
-			if ((isupper(pattern[i]) && !isupper(pattern[i + 2])) || (islower(pattern[i]) && !islower(pattern[i + 2])))
-				return (0);
-			if (pattern[i] >= pattern[i + 2])
-				return (0);
-		}
 		if (ft_isdigit(pattern[i]) && pattern[i + 1] && pattern[i + 1] == '-')
-		{
-			if (!pattern[i + 2])
+			if (!pattern[i + 2] || (!ft_isdigit(pattern[i + 2]))
+			|| (pattern[i] >= pattern[i + 2]))
 				return (0);
-			if (!ft_isdigit(pattern[i + 2]))
-				return (0);
-			if (pattern[i] >= pattern[i + 2])
-				return (0);
-		}
 		i++;
 	}
 	return (i - px + 1);
